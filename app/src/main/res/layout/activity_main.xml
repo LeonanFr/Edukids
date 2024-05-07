@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="view.MainActivity">
+
+    <LinearLayout
+        android:id="@+id/m_a_Buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:background="#F5DEB3"
+        android:layout_alignParentBottom="true">
+
+        <ImageButton
+            android:id="@+id/jump_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:src="@drawable/jumpbutton"
+            android:background="@null"
+            android:contentDescription="Pular exercício"
+            android:layout_gravity="center"
+            tools:ignore="HardcodedText" />
+
+        <ImageButton
+            android:id="@+id/like_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:src="@drawable/likeheart"
+            android:background="@null"
+            android:contentDescription="Curtir exercício"
+            android:layout_gravity="center"
+            tools:ignore="HardcodedText" />
+
+        <ImageButton
+            android:id="@+id/menu_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:src="@drawable/mainmenu"
+            android:background="@null"
+            android:contentDescription="Menu principal"
+            android:layout_gravity="center"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/m_a_Buttons"
+        />
+
+</RelativeLayout>
