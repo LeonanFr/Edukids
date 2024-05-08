@@ -1,5 +1,6 @@
 package model
 
+
 data class Media(
     private val id: Int,
     private val title: String,
@@ -15,4 +16,8 @@ data class Media(
     fun getType() : MediaType{
         return this.mediaType
     }
+
+    companion object{
+    }
+
 }

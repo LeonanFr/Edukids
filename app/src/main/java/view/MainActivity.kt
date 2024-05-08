@@ -3,9 +3,12 @@ package view
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.platform.LocalContext
 import androidx.fragment.app.Fragment
 import com.example.app.R
+import controller.ExerciseController
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -13,9 +16,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var likeButton: ImageButton
     private lateinit var jumpButton: ImageButton
 
-    private lateinit var mediaFragment : MediaFragment
-    private lateinit var questionFragment: QuestionFragment
-    private lateinit var activityFragment: ActivityFragment
+    private  var mediaFragment = MediaFragment()
+    private var questionFragment = QuestionFragment()
+    private var activityFragment = ActivityFragment()
+
+    private var exerciseController = ExerciseController()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,10 +33,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         jumpButton = findViewById(R.id.jump_button)
 
-        mediaFragment = MediaFragment()
-        questionFragment = QuestionFragment()
-
         setFragment(mediaFragment)
+
+
 
     }
 
@@ -42,7 +46,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View) {
-        setFragment(questionFragment)
+
     }
 
 }
