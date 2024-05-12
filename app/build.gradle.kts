@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.app"
-        minSdk = 25
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -27,11 +27,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -43,6 +43,7 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/native-image/org.mongodb/bson/native-image.properties"
         }
 
 }
@@ -50,6 +51,13 @@ android {
 
 dependencies {
 
+    //noinspection UseTomlInstead
+    implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
+    implementation ("androidx.media3:media3-session:1.3.1")
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation ("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation ("com.google.code.gson:gson:2.10.1")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

@@ -1,8 +1,12 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="view.MediaFragment">
+    android:orientation="horizontal"
+    android:background="@drawable/background"
+    tools:context="view.MediaFragment"
+    >
 
     <ImageView
         android:id="@+id/imageView"
@@ -11,7 +15,7 @@
         android:contentDescription="@string/media_description"
         android:visibility="gone" />
 
-    <VideoView
+    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
         android:id="@+id/videoView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,12 +23,15 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="156dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="16dp"
-        android:textSize="18sp"
+        android:textSize="25sp"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:fontFamily="@font/opensans"
         android:visibility="gone"
         tools:ignore="HardcodedText" />
-
-</FrameLayout>
+</LinearLayout>

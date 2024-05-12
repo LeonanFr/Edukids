@@ -17,6 +17,14 @@ data class Media(
         return this.mediaType
     }
 
+    fun getUrl() : String{
+        return this.url
+    }
+
+    fun getTitle() : String{
+        return this.title
+    }
+
     companion object{
     }
 

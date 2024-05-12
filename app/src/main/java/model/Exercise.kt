@@ -2,7 +2,7 @@ package model
 
 
 data class Exercise(
-    private val id: String,
+    private val _id: Int,
     private val description: String,
     private var correctOptionId: Int,
     private val isReady: Boolean,
@@ -23,8 +23,16 @@ data class Exercise(
         return this.description
     }
 
-    companion object{
+    fun getMedia() : List<Media>{
+        return this.medias
+    }
 
+    fun getOptions() : List<Option>{
+        return this.options
+    }
+
+    fun getCurrentOptionId() : Int{
+        return this.correctOptionId
     }
 
 }

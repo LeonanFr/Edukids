@@ -1,0 +1,6 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Cor do texto quando desmarcado -->
+    <item android:color="#58AEF5" android:state_checked="false"/>
+    <!-- Cor do texto quando marcado -->
+    <item android:color="#FFF" android:state_checked="true"/>
+</selector>
