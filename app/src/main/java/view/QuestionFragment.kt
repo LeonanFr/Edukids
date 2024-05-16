@@ -1,6 +1,7 @@
 package view
 
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.example.app.R
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -43,8 +45,9 @@ class QuestionFragment : Fragment() {
     private lateinit var thirdOption : RadioButton
     private lateinit var validateBtn : ImageButton
     private lateinit var answerOverlay : View
+    private lateinit var answerNavOverlay : View
     private lateinit var optionList : List<Option>
-    private var selectedId = 0
+    private var selectedId = -1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,6 +65,7 @@ class QuestionFragment : Fragment() {
         thirdOption = view.findViewById(R.id.thirdOption)
         validateBtn = view.findViewById(R.id.validateButton)
         answerOverlay = view.findViewById(R.id.answerOverlay)
+        answerNavOverlay = (activity as MainActivity).findViewById(R.id.nav_overlay)
 
         firstOption.setOnCheckedChangeListener{ _, isChecked ->
             if(isChecked)
@@ -80,10 +84,14 @@ class QuestionFragment : Fragment() {
         }
 
         validateBtn.setOnClickListener{
-            validateQuestion(view)
+            if(selectedId!=-1)
+                validateQuestion(view)
         }
 
         answerOverlay.setOnClickListener{
+        }
+
+        answerNavOverlay.setOnClickListener{
         }
 
         questionDescription.text = arguments?.getString("description")
@@ -101,8 +109,12 @@ class QuestionFragment : Fragment() {
     }
 
     private fun validateQuestion(v: View) {
+
         answerOverlay.visibility = View.VISIBLE
         answerOverlay.isClickable = true
+        answerNavOverlay.visibility = View.VISIBLE
+        answerNavOverlay.isClickable = true
+
         val isCorrect = (exercise.answerExercise(optionList[selectedId]))
 
         val textWrongOrRight = v.findViewById<TextView>(R.id.textWrongOrRight)
@@ -111,14 +123,18 @@ class QuestionFragment : Fragment() {
         val imageWrongOrRight = v.findViewById<ImageView>(R.id.imageWrongOrRight)
 
         if(isCorrect){
+
             textWrongOrRight.text = getString(R.string.right_text)
             actionWrongOrRight.text = getString(R.string.action_right_text)
             buttonWrongOrRight.text = getString(R.string.button_right_text)
             imageWrongOrRight.setImageResource(R.drawable.correctanswerimage)
 
             buttonWrongOrRight.setOnClickListener{
+
                 val exerciseFragment = (activity as MainActivity).supportFragmentManager.findFragmentById(R.id.fragment_container) as? ExerciseFragment
                 exerciseFragment?.displayNextFragment()
+                answerNavOverlay.visibility=View.GONE
+                answerNavOverlay.isClickable = false
             }
         } else{
             textWrongOrRight.text = getString(R.string.wrong_text)
@@ -127,8 +143,11 @@ class QuestionFragment : Fragment() {
             imageWrongOrRight.setImageResource(R.drawable.wronganswerimage)
 
             buttonWrongOrRight.setOnClickListener{
+
                 answerOverlay.visibility=View.GONE
                 answerOverlay.isClickable = false
+                answerNavOverlay.visibility=View.GONE
+                answerNavOverlay.isClickable = false
             }
 
         }

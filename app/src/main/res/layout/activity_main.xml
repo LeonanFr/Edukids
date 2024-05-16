@@ -10,66 +10,85 @@
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/m_a_Buttons">
+        android:layout_above="@id/buttons_overlay_container">
 
         <ImageButton
             android:id="@+id/downbutton"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@null"
             android:contentDescription="Botão para o próximo item"
             android:elevation="12dp"
             android:src="@drawable/downbutton"
-            android:background="@null"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
             android:visibility="gone"
             tools:ignore="HardcodedText" />
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/m_a_Buttons"
+    <!-- Adicione um FrameLayout para envolver os botões e o overlay -->
+    <FrameLayout
+        android:id="@+id/buttons_overlay_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:background="#F5DEB3"
-        android:layout_alignParentBottom="true"
-        android:visibility="gone">
+        android:layout_alignParentBottom="true">
 
-        <ImageButton
-            android:id="@+id/jump_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:src="@drawable/jumpbutton_unclickable"
-            android:background="@null"
-            android:contentDescription="Pular exercício"
-            android:layout_gravity="center"
-            tools:ignore="HardcodedText" />
+        <LinearLayout
+            android:id="@+id/m_a_Buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:background="#F5DEB3"
+            android:orientation="horizontal"
+            android:visibility="gone">
 
-        <ImageButton
-            android:id="@+id/like_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:background="@null"
-            android:contentDescription="Curtir exercício"
-            android:src="@drawable/likeheart"
-            tools:ignore="HardcodedText" />
+            <ImageButton
+                android:id="@+id/jump_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/jumpbutton_unclickable"
+                android:background="@null"
+                android:contentDescription="Pular exercício"
+                android:layout_gravity="center"
+                tools:ignore="HardcodedText" />
 
-        <ImageButton
-            android:id="@+id/menu_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:src="@drawable/mainmenu"
-            android:background="@null"
-            android:contentDescription="Menu principal"
-            android:layout_gravity="center"
-            tools:ignore="HardcodedText" />
+            <ImageButton
+                android:id="@+id/like_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@null"
+                android:contentDescription="Curtir exercício"
+                android:src="@drawable/likeheart"
+                tools:ignore="HardcodedText" />
 
-    </LinearLayout>
+            <ImageButton
+                android:id="@+id/menu_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/mainmenu"
+                android:background="@null"
+                android:contentDescription="Menu principal"
+                android:layout_gravity="center"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/nav_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shadow_overlay"
+            android:visibility="gone">
+
+
+        </FrameLayout>
+
+    </FrameLayout>
 
 </RelativeLayout>

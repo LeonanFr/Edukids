@@ -56,6 +56,7 @@ class MediaFragment() : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+
         val view = inflater.inflate(R.layout.fragment_media, container, false)
 
         textView = view.findViewById(R.id.textView)
@@ -104,4 +105,12 @@ class MediaFragment() : Fragment() {
             }
         })
     }
+
+    override fun onPause() {
+        super.onPause()
+        if (mediaType == MediaType.VIDEO) {
+            videoView.release()
+        }
+    }
+
 }

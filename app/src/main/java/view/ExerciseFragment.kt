@@ -9,6 +9,7 @@ import com.example.app.R
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import model.Exercise
+import model.Media
 import okhttp3.ResponseBody
 
 class ExerciseFragment : Fragment() {
@@ -40,24 +41,13 @@ class ExerciseFragment : Fragment() {
 
     fun displayNextFragment() {
         val currentExercise = exerciseList.getOrNull(exerciseIndex)
+
         if (currentExercise != null) {
             val mediaList = currentExercise.getMedia()
             if (mediaList.isNotEmpty() && mediaIndex<mediaList.size) {
-                val mediaFragment = MediaFragment.newInstance(mediaList[mediaIndex].getUrl(), mediaList[mediaIndex].getType().toString(), mediaList[mediaIndex].getTitle())
-                childFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container_child, mediaFragment)
-                    .commit()
-                (activity as MainActivity).updateNextButtonVisibility(mediaFragment)
-                mediaIndex++
+                displayMediaFragment(currentExercise, mediaList)
             } else {
-                val optionsList = currentExercise.getOptions()
-                val questionFragment = QuestionFragment.newInstance(currentExercise.getDescription(), Gson().toJson(optionsList), currentExercise.getCurrentOptionId(), Gson().toJson(currentExercise))
-                childFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container_child, questionFragment)
-                    .commit()
-                (activity as MainActivity).updateNextButtonVisibility(questionFragment)
-                exerciseIndex++
-                mediaIndex = 0
+                displayQuestionFragment(currentExercise)
             }
         } else{
             (activity as MainActivity).setFragment(EndFragment())
@@ -65,6 +55,27 @@ class ExerciseFragment : Fragment() {
 
     }
 
+    private fun displayMediaFragment(currentExercise : Exercise, mediaList : List<Media>){
+        val mediaFragment = MediaFragment.newInstance(mediaList[mediaIndex].getUrl(), mediaList[mediaIndex].getType().toString(), mediaList[mediaIndex].getTitle())
+        childFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container_child, mediaFragment, "fragment_media")
+            .addToBackStack("fragment_media")
+            .commit()
+        (activity as MainActivity).updateNextButtonVisibility(mediaFragment)
+        mediaIndex++
+    }
+
+    private fun displayQuestionFragment(currentExercise : Exercise){
+        val optionsList = currentExercise.getOptions()
+        val questionFragment = QuestionFragment.newInstance(currentExercise.getDescription(), Gson().toJson(optionsList), currentExercise.getCurrentOptionId(), Gson().toJson(currentExercise))
+
+        childFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container_child, questionFragment)
+            .commit()
+        (activity as MainActivity).updateNextButtonVisibility(questionFragment)
+        exerciseIndex++
+        mediaIndex = 0
+    }
         override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

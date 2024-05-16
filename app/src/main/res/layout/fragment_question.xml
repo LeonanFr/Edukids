@@ -1,166 +1,176 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#58AEF5"
-    tools:context="view.QuestionFragment">
-
-    <LinearLayout
-        android:id="@+id/question"
-        android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="40dp">
-    <TextView
-        android:id="@+id/questionDescription"
-        android:layout_width="230dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/lalezar"
-        android:text=""
-        android:textColor="@color/white"
-        android:textSize="35sp"
-        tools:ignore="HardcodedText" />
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/audiotranscription"
-            android:layout_marginStart="20dp"
-            android:background="@drawable/rounded_button"
-            android:paddingStart="12dp"
-            android:paddingVertical="6dp"
-            android:contentDescription="Audiodescrição da questão"
-            tools:ignore="HardcodedText,RtlSymmetry" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_below="@+id/question"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:paddingHorizontal="40dp">
-
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-    <RadioButton
-        android:id="@+id/firstOption"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginBottom="50dp"
-        android:background="@drawable/radio_button"
-        android:fontFamily="@font/lalezar"
-        android:textColor="@drawable/radio_button_textcolor"
-        android:button="@null"
-        android:textSize="30sp"
-        android:text=""
-        android:textAlignment="center"/>
-
-
-    <RadioButton
-        android:id="@+id/secondOption"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginBottom="50dp"
-        android:background="@drawable/radio_button"
-        android:button="@null"
-        android:fontFamily="@font/lalezar"
-        android:textColor="@drawable/radio_button_textcolor"
-        android:textSize="30sp"
-        android:text=""
-        android:textAlignment="center"/>
-
-    <RadioButton
-        android:id="@+id/thirdOption"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginBottom="50dp"
-        android:background="@drawable/radio_button"
-        android:button="@null"
-        android:fontFamily="@font/lalezar"
-        android:textColor="@drawable/radio_button_textcolor"
-        android:textSize="30sp"
-        android:text=""
-        android:textAlignment="center"/>
-
-        </RadioGroup>
-    <ImageButton
-        android:id="@+id/validateButton"
-        android:layout_width="120dp"
-        android:layout_height="60dp"
-        android:contentDescription="Validar resposta"
-        android:src="@drawable/confirmbutton"
-        android:layout_gravity="center"
-        android:background="@drawable/rounded_button"
-        tools:ignore="HardcodedText" />
-
-    </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/answerOverlay"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/shadow_overlay"/>
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="#58AEF5"
+        tools:context="view.QuestionFragment">
 
         <LinearLayout
+            android:id="@+id/question"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingHorizontal="30dp"
+            android:layout_marginTop="60dp">
+        <TextView
+            android:id="@+id/questionDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lalezar"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:layout_weight="1"
+            tools:ignore="HardcodedText" />
 
-            <TextView
-                android:id="@+id/textWrongOrRight"
+            <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="35sp"
-                android:fontFamily="@font/lalezar"
-                android:textColor="@color/white"
-                android:layout_marginBottom="20dp"
-                tools:ignore="HardcodedText" />
-
-            <ImageView
-                android:id="@+id/imageWrongOrRight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="Criança representando acerto ou erro"
-                android:layout_marginBottom="20dp"
-                tools:ignore="HardcodedText" />
-
-
-            <TextView
-                android:id="@+id/textActionWrongOrRight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="35sp"
-                android:fontFamily="@font/lalezar"
-                android:textColor="@color/white"
-                android:layout_marginBottom="20dp"
-                tools:ignore="HardcodedText" />
-
-            <Button
-                android:id="@+id/btnWrongOrRight"
-                android:layout_width="300dp"
-                android:layout_height="70dp"
-                android:text="Placeholder"
-                android:textSize="30sp"
-                android:fontFamily="@font/lalezar"
+                android:src="@drawable/audiotranscription"
+                android:layout_marginStart="20dp"
                 android:background="@drawable/rounded_button"
-                android:textColor="@color/white"
-                android:backgroundTint="#58AEF5"
-                app:backgroundTint="@null"
-                tools:ignore="HardcodedText" />
+                android:paddingStart="12dp"
+                android:layout_weight="0"
+                android:paddingVertical="6dp"
+                android:contentDescription="Audiodescrição da questão"
+                tools:ignore="HardcodedText,RtlSymmetry" />
 
         </LinearLayout>
-    </FrameLayout>
 
-    </RelativeLayout>
+        <LinearLayout
+            android:layout_below="@+id/question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:paddingHorizontal="40dp">
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/firstOption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="50dp"
+                    android:background="@drawable/radio_button"
+                    android:fontFamily="@font/lalezar"
+                    android:textColor="@drawable/radio_button_textcolor"
+                    android:button="@null"
+                    android:textSize="24sp"
+                    android:text=""
+                    android:paddingVertical="7dp"
+                    android:textAlignment="center"/>
+
+
+                <RadioButton
+                    android:id="@+id/secondOption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="50dp"
+                    android:background="@drawable/radio_button"
+                    android:button="@null"
+                    android:fontFamily="@font/lalezar"
+                    android:textColor="@drawable/radio_button_textcolor"
+                    android:textSize="24sp"
+                    android:text=""
+                    android:paddingVertical="7dp"
+                    android:textAlignment="center"/>
+
+                <RadioButton
+                    android:id="@+id/thirdOption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="50dp"
+                    android:background="@drawable/radio_button"
+                    android:button="@null"
+                    android:fontFamily="@font/lalezar"
+                    android:textColor="@drawable/radio_button_textcolor"
+                    android:textSize="24sp"
+                    android:text=""
+                    android:paddingVertical="7dp"
+                    android:textAlignment="center"/>
+
+                    </RadioGroup>
+        <ImageButton
+            android:id="@+id/validateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="50dp"
+            android:contentDescription="Validar resposta"
+            android:src="@drawable/confirmbutton"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_button"
+            tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/answerOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shadow_overlay"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/textWrongOrRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="35sp"
+                    android:fontFamily="@font/lalezar"
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="20dp"
+                    tools:ignore="HardcodedText" />
+
+                <ImageView
+                    android:id="@+id/imageWrongOrRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="Criança representando acerto ou erro"
+                    android:layout_marginBottom="20dp"
+                    tools:ignore="HardcodedText" />
+
+
+                <TextView
+                    android:id="@+id/textActionWrongOrRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="35sp"
+                    android:fontFamily="@font/lalezar"
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="20dp"
+                    tools:ignore="HardcodedText" />
+
+                <Button
+                    android:id="@+id/btnWrongOrRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:paddingHorizontal="50dp"
+                    android:paddingVertical="5dp"
+                    android:textSize="24sp"
+                    android:fontFamily="@font/lalezar"
+                    android:background="@drawable/rounded_button"
+                    android:textColor="@color/white"
+                    android:backgroundTint="#58AEF5"
+                    app:backgroundTint="@null"
+                    tools:ignore="HardcodedText" />
+
+            </LinearLayout>
+        </FrameLayout>
+
+        </RelativeLayout>

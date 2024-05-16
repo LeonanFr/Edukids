@@ -11,8 +11,9 @@
         android:gravity="center">
 
         <ImageView
-            android:layout_width="250dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="50dp"
             android:contentDescription="Logo do aplicativo Edukids"
             android:src="@drawable/logoapp"
             tools:ignore="HardcodedText" />

@@ -2,6 +2,8 @@ package view
 
 import android.os.Bundle
 import android.util.Log
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageButton
 import android.widget.LinearLayout
@@ -17,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 const val BASE_URL = "https://sa-east-1.aws.data.mongodb-api.com/app/data-ytyyaqu/endpoint/"
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+class MainActivity : AppCompatActivity(), View.OnClickListener{
 
     private lateinit var menuButton: ImageButton
     private lateinit var likeButton: ImageButton
@@ -26,6 +28,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var navButtons : LinearLayout
 
     private lateinit var exerciseFragment: ExerciseFragment
+
+    private lateinit var gestureDetector: GestureDetector
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +52,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         setFragment(LoadingFragment())
 
         initExerciseFragment()
-
     }
 
     private fun getData() : Call<ResponseBody>{

@@ -10,6 +10,7 @@
         android:layout_height="match_parent"
         android:text= "Você chegou ao fim dos exercícios!"
         android:textSize="22sp"
+        android:textColor="@color/black"
         android:fontFamily="@font/opensans"
         android:gravity="center"
         tools:ignore="HardcodedText" />
