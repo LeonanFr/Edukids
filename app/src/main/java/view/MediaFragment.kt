@@ -1,6 +1,5 @@
 package view
 
-import android.net.Uri
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.util.Log
@@ -10,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.VideoView
 import com.bumptech.glide.Glide
 import com.example.app.R
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -71,7 +69,7 @@ class MediaFragment() : Fragment(), TextToSpeech.OnInitListener {
 
         showMedia()
 
-        tts = TextToSpeech(activity, this);
+        tts = TextToSpeech(activity, this)
 
         val jumpBtn = (activity as MainActivity).findViewById<ImageView>(R.id.jump_button)
 

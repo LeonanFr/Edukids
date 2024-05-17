@@ -45,7 +45,7 @@ class ExerciseFragment : Fragment() {
         if (currentExercise != null) {
             val mediaList = currentExercise.getMedia()
             if (mediaList.isNotEmpty() && mediaIndex<mediaList.size) {
-                displayMediaFragment(currentExercise, mediaList)
+                displayMediaFragment(mediaList)
             } else {
                 displayQuestionFragment(currentExercise)
             }
@@ -54,7 +54,7 @@ class ExerciseFragment : Fragment() {
         }
     }
 
-    private fun displayMediaFragment(currentExercise : Exercise, mediaList : List<Media>){
+    private fun displayMediaFragment(mediaList : List<Media>){
         val mediaFragment = MediaFragment.newInstance(mediaList[mediaIndex].getUrl(), mediaList[mediaIndex].getType().toString(), mediaList[mediaIndex].getTitle())
         childFragmentManager.beginTransaction()
             .replace(R.id.fragment_container_child, mediaFragment, "fragment_media")
