@@ -1,0 +1,205 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="view.ActivityFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:background="@drawable/background">
+
+        <ImageView
+            android:id="@+id/activity_main_image"
+            android:layout_width="wrap_content"
+            android:layout_height="400dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:contentDescription="@string/activity_example"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/activity_main_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lalezar"
+                    android:text="@string/activity_main_text"
+                    android:textColor="#58AEF5"
+                    android:textSize="28sp"/>
+
+
+                <TextView
+                    android:id="@+id/activity_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lalezar"
+                    android:textColor="#58AEF5"
+                    android:textSize="28sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="10dp"
+                android:layout_height="match_parent"/>
+
+            <ImageButton
+                android:id="@+id/tts_button_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/audiotranscription_white"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/rounded_button_white"
+                android:paddingStart="20dp"
+                android:paddingEnd="10dp"
+                android:layout_weight="0"
+                android:paddingVertical="15dp"
+                android:contentDescription="@string/audiodescription"
+                tools:ignore="InefficientWeight" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/overlay_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <View
+            android:id="@+id/confirm_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shadow_overlay"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingHorizontal="25dp">
+
+            <ImageButton
+                android:id="@+id/exit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:layout_gravity="start"
+                android:layout_marginBottom="30dp"
+                android:contentDescription="@string/exit_btn"
+                android:src="@drawable/exit"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:orientation="vertical"
+                android:background="@drawable/rounded_button_white"
+                android:paddingHorizontal="20dp"
+                android:paddingBottom="2dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/credential"
+                    android:textSize="24sp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/lalezar"
+                    android:layout_gravity="start"/>
+
+                <EditText
+                    android:id="@+id/password_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:backgroundTint="@color/white"
+                    android:inputType="textPassword"
+                    android:layout_gravity="bottom"
+                    tools:ignore="Autofill,LabelFor"/>
+
+                
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/validate_activity_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="30dp"
+                android:contentDescription="Validar resposta"
+                android:src="@drawable/confirmbutton"
+                android:layout_gravity="center"
+                android:background="@drawable/rounded_button"
+                android:layout_marginTop="30dp"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/finished_activity_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shadow_overlay"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/validate_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="250dp"
+                android:textColor="#EFF558"
+                android:textSize="40sp"
+                android:textAlignment="center"
+                android:fontFamily="@font/lalezar"/>
+
+            <ImageView
+                android:id="@+id/validate_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/sucess_image"
+                android:background="@null"/>
+
+            <Button
+                android:id="@+id/btn_continue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="50dp"
+                android:paddingVertical="5dp"
+                android:textSize="28sp"
+                android:fontFamily="@font/lalezar"
+                android:background="@drawable/rounded_button"
+                android:textColor="@color/white"
+                android:backgroundTint="#58AEF5"
+                app:backgroundTint="@null"
+                android:layout_marginTop="20dp"
+                tools:ignore="HardcodedText" />
+
+
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</RelativeLayout>

@@ -2,8 +2,6 @@ package view
 
 import android.os.Bundle
 import android.util.Log
-import android.view.GestureDetector
-import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageButton
 import android.widget.LinearLayout
@@ -19,17 +17,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 const val BASE_URL = "https://sa-east-1.aws.data.mongodb-api.com/app/data-ytyyaqu/endpoint/"
-class MainActivity : AppCompatActivity(), View.OnClickListener{
+class MainActivity : AppCompatActivity(), View.OnClickListener, DataInterface{
 
     private lateinit var menuButton: ImageButton
     private lateinit var likeButton: ImageButton
     private lateinit var jumpButton: ImageButton
     private lateinit var nextButton: ImageButton
-    private lateinit var navButtons : LinearLayout
+    private lateinit var navMainButtons : LinearLayout
+    private lateinit var navActivityButtons : LinearLayout
+    private lateinit var validateButton : ImageButton
 
-    private lateinit var exerciseFragment: ExerciseFragment
-
-    private lateinit var gestureDetector: GestureDetector
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,32 +44,48 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
         nextButton = findViewById(R.id.downbutton)
         nextButton.setOnClickListener(this)
 
-        navButtons = findViewById(R.id.m_a_Buttons)
+        validateButton = findViewById(R.id.validate_button)
+        validateButton.setOnClickListener(this)
+
+        navMainButtons = findViewById(R.id.nav_main_buttons)
+        navActivityButtons = findViewById(R.id.nav_activity_buttons)
 
         setFragment(LoadingFragment())
 
         initExerciseFragment()
     }
 
-    private fun getData() : Call<ResponseBody>{
+
+    override fun getExercises() : Call<ResponseBody>{
         val retrofitBuilder = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(BASE_URL)
             .build()
             .create(DataInterface::class.java)
 
-        return retrofitBuilder.getData()
+        return retrofitBuilder.getExercises()
     }
+
+    override fun getActivities() : Call<ResponseBody>{
+        val retrofitBuilder = Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(BASE_URL)
+            .build()
+            .create(DataInterface::class.java)
+
+        return retrofitBuilder.getActivities()
+    }
+
     private fun initExerciseFragment(){
 
-        getData().enqueue(object : Callback<ResponseBody> {
+        getExercises().enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful && response.body() != null) {
                     val exercises = response.body()!!
-                    exerciseFragment = ExerciseFragment.newInstance(exercises)
+                    val exerciseFragment = ExerciseFragment.newInstance(exercises)
                     setFragment(exerciseFragment)
-                    navButtons.visibility = View.VISIBLE
-
+                    navMainButtons.visibility = View.VISIBLE
+                    navActivityButtons.visibility = View.GONE
                 } else {
                     Log.e("MainActivity", "Request failed: ${response.code()}")
                 }
@@ -84,6 +97,24 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
         })
     }
 
+    fun initActivityFragment() {
+        getActivities().enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful && response.body() != null) {
+                    val activities = response.body()!!
+                    val activityFragment = ActivityFragment.newInstance(activities)
+                    setFragment(activityFragment)
+                } else {
+                    setFragment(EndFragment())
+                    Log.e("MainActivity", "Request failed: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.d("MainActivity", "onFailure: ${t.message}")
+            }
+        })
+    }
 
     fun setFragment(fragment: Fragment){
         supportFragmentManager.beginTransaction()
@@ -102,12 +133,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
         }
     }
 
+
     override fun onClick(v: View) {
         when(v.id){
 
             R.id.downbutton -> {
-                val exerciseFragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as? ExerciseFragment
-                exerciseFragment?.displayNextFragment()
+                val currentFragment =
+                    supportFragmentManager.findFragmentById(R.id.fragment_container)
+                if (currentFragment is ExerciseFragment){
+                    currentFragment.displayNextFragment()
+                }
             }
             R.id.jump_button -> {
                 val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
@@ -116,8 +151,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
                     currentFragment.displayNextFragment()
 
             }
+
+            R.id.validate_button ->{
+                val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+                if(currentFragment is ActivityFragment){
+                        currentFragment.validateActivity()
+                }
+            }
+
+        }
+
         }
     }
-
-
-}

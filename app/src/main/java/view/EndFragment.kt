@@ -23,10 +23,13 @@ class EndFragment : Fragment() {
 
         val jumpBtn = (activity as MainActivity).findViewById<ImageView>(R.id.jump_button)
         val likeBtn = (activity as MainActivity).findViewById<ImageView>(R.id.like_button)
+        val validateBtn = (activity as MainActivity).findViewById<ImageView>(R.id.validate_button)
+        val navOverlay = (activity as MainActivity).findViewById<View>(R.id.nav_overlay)
 
         jumpBtn.visibility=View.GONE
         likeBtn.visibility=View.GONE
-
+        validateBtn.visibility=View.GONE
+        navOverlay.visibility =View.GONE
 
         return inflater.inflate(R.layout.fragment_end, container, false)
     }

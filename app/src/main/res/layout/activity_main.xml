@@ -28,7 +28,6 @@
             tools:ignore="HardcodedText" />
     </RelativeLayout>
 
-    <!-- Adicione um FrameLayout para envolver os botões e o overlay -->
     <FrameLayout
         android:id="@+id/buttons_overlay_container"
         android:layout_width="match_parent"
@@ -36,7 +35,7 @@
         android:layout_alignParentBottom="true">
 
         <LinearLayout
-            android:id="@+id/m_a_Buttons"
+            android:id="@+id/nav_main_buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
@@ -79,15 +78,48 @@
 
         </LinearLayout>
 
+
+        <LinearLayout
+            android:id="@+id/nav_activity_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="25dp"
+            android:paddingVertical="5dp"
+            android:background="#F5DEB3"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+
+            <ImageButton
+                android:id="@id/menu_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/mainmenu"
+                android:background="@null"
+                android:contentDescription="Menu principal"
+                android:layout_gravity="center"
+                tools:ignore="HardcodedText" />
+
+            <ImageButton
+                android:id="@+id/validate_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@null"
+                android:contentDescription="Curtir exercício"
+                android:src="@drawable/validate"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+
         <FrameLayout
             android:id="@+id/nav_overlay"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/shadow_overlay"
-            android:visibility="gone">
-
-
-        </FrameLayout>
+            android:visibility="gone"/>
 
     </FrameLayout>
 

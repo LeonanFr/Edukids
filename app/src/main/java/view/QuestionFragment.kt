@@ -1,26 +1,24 @@
 package view
 
-import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import com.example.app.R
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import model.Exercise
 import model.Option
+import java.util.Locale
 
-class QuestionFragment : Fragment() {
+class QuestionFragment : Fragment(), TextToSpeech.OnInitListener {
 
     companion object{
         fun newInstance(description: String, optionsJson: String, correctOptionId: Int, exercise: String) : QuestionFragment{
@@ -44,9 +42,11 @@ class QuestionFragment : Fragment() {
     private lateinit var secondOption : RadioButton
     private lateinit var thirdOption : RadioButton
     private lateinit var validateBtn : ImageButton
+    private lateinit var ttsBtn : ImageButton
     private lateinit var answerOverlay : View
     private lateinit var answerNavOverlay : View
     private lateinit var optionList : List<Option>
+    private var tts : TextToSpeech? = null
     private var selectedId = -1
 
     override fun onCreateView(
@@ -59,13 +59,17 @@ class QuestionFragment : Fragment() {
         optionList = Gson().fromJson(arguments?.getString("optionsJson"), object : TypeToken<List<Option>>(){}.type)
         exercise = Gson().fromJson(arguments?.getString("exercise"), object : TypeToken<Exercise>(){}.type)
 
+
+
         questionDescription = view.findViewById(R.id.questionDescription)
         firstOption = view.findViewById(R.id.firstOption)
         secondOption = view.findViewById(R.id.secondOption)
         thirdOption = view.findViewById(R.id.thirdOption)
         validateBtn = view.findViewById(R.id.validateButton)
+        ttsBtn = view.findViewById(R.id.tts_button)
         answerOverlay = view.findViewById(R.id.answerOverlay)
         answerNavOverlay = (activity as MainActivity).findViewById(R.id.nav_overlay)
+
 
         firstOption.setOnCheckedChangeListener{ _, isChecked ->
             if(isChecked)
@@ -108,12 +112,23 @@ class QuestionFragment : Fragment() {
 
     }
 
-    private fun validateQuestion(v: View) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+        tts = TextToSpeech(activity, this)
+
+    }
+
+    private fun turnOverlayOn(){
         answerOverlay.visibility = View.VISIBLE
         answerOverlay.isClickable = true
         answerNavOverlay.visibility = View.VISIBLE
         answerNavOverlay.isClickable = true
+    }
+
+    private fun validateQuestion(v: View) {
+
+        turnOverlayOn()
 
         val isCorrect = (exercise.answerExercise(optionList[selectedId]))
 
@@ -152,6 +167,45 @@ class QuestionFragment : Fragment() {
 
         }
 
+    }
+
+    private fun speakOut(textToRead : String){
+
+        tts?.speak(textToRead, TextToSpeech.QUEUE_FLUSH, null,"")
+
+    }
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS) {
+            val result = tts?.setLanguage(Locale.forLanguageTag("pt-BR"))
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "A linguagem especificada não é suportado ou faltam dados")
+                ttsBtn.isEnabled = false
+            } else {
+                speakOut(questionDescription.text.toString())
+                ttsBtn.setOnClickListener {
+                    speakOut(questionDescription.text.toString())
+                }
+                firstOption.setOnClickListener {
+                    speakOut(optionList[0].getDescription())
+                }
+                secondOption.setOnClickListener {
+                    speakOut(optionList[1].getDescription())
+                }
+                thirdOption.setOnClickListener {
+                    speakOut(optionList[2].getDescription())
+                }
+                ttsBtn.isEnabled = true
+            }
+        } else {
+            Log.e("TTS", "A inicialização falhou")
+            ttsBtn.isEnabled = false
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        tts?.stop()
+        tts?.shutdown()
     }
 
 }

@@ -9,19 +9,11 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 
-/*
-    private val apiKey = "OnPG334qLDJxAOOBMja8p4MCJQa8laGelIzQkhCZXlKiwrGT1mGFAXvlFuebGG9Q"
-
-    {
-        "collection":"exercises",
-        "database":"edukids",
-        "dataSource":"Cluster0",
-        "filter": {"_id": 1}
-    }
-
-*/
-
 interface DataInterface {
     @GET("exercises")
-    fun getData(): Call<ResponseBody>
+    fun getExercises(): Call<ResponseBody>
+
+    @GET("activities")
+    fun getActivities():Call<ResponseBody>
+
 }

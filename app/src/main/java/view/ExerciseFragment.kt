@@ -50,9 +50,8 @@ class ExerciseFragment : Fragment() {
                 displayQuestionFragment(currentExercise)
             }
         } else{
-            (activity as MainActivity).setFragment(EndFragment())
+            (activity as MainActivity).initActivityFragment()
         }
-
     }
 
     private fun displayMediaFragment(currentExercise : Exercise, mediaList : List<Media>){

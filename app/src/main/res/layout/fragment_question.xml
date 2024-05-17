@@ -26,16 +26,17 @@
             tools:ignore="HardcodedText" />
 
             <ImageButton
+                android:id="@+id/tts_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/audiotranscription"
                 android:layout_marginStart="20dp"
                 android:background="@drawable/rounded_button"
                 android:paddingStart="12dp"
+                android:paddingEnd="0dp"
                 android:layout_weight="0"
                 android:paddingVertical="6dp"
-                android:contentDescription="Audiodescrição da questão"
-                tools:ignore="HardcodedText,RtlSymmetry" />
+                android:contentDescription="@string/audiodescription"/>
 
         </LinearLayout>
 
