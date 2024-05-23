@@ -103,9 +103,9 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="50dp"
             android:contentDescription="Validar resposta"
-            android:src="@drawable/confirmbutton"
+            android:src="@drawable/confirmbuttonwhite"
             android:layout_gravity="center"
-            android:background="@drawable/rounded_button"
+            android:background="@drawable/rounded_button_unable"
             tools:ignore="HardcodedText" />
 
         </LinearLayout>

@@ -15,8 +15,8 @@ data class Exercise(
         return (option == options[correctOptionId])
     }
 
-    fun readQuestion(){
-        println(this.description)
+    fun getId() : Int{
+        return this._id
     }
 
     fun getDescription() : String{

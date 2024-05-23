@@ -2,7 +2,6 @@ package view
 
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +15,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import model.Exercise
 import model.Option
-import java.util.Locale
+import model.UserAnswer
 
 class QuestionFragment(tts:TextToSpeech) : Fragment() {
 
@@ -59,7 +58,7 @@ class QuestionFragment(tts:TextToSpeech) : Fragment() {
         optionList = Gson().fromJson(arguments?.getString("optionsJson"), object : TypeToken<List<Option>>(){}.type)
         exercise = Gson().fromJson(arguments?.getString("exercise"), object : TypeToken<Exercise>(){}.type)
 
-
+        speakOut(exercise.getDescription())
 
         questionDescription = view.findViewById(R.id.questionDescription)
         firstOption = view.findViewById(R.id.firstOption)
@@ -74,12 +73,16 @@ class QuestionFragment(tts:TextToSpeech) : Fragment() {
         firstOption.setOnCheckedChangeListener{ _, isChecked ->
             if(isChecked)
                 selectedId = 0
+            validateBtn.setImageResource(R.drawable.confirmbutton)
+            validateBtn.setBackgroundResource(R.drawable.rounded_button)
             speakOut(exercise.getOptions()[selectedId].getDescription())
         }
 
         secondOption.setOnCheckedChangeListener{ _, isChecked ->
             if(isChecked)
                 selectedId = 1
+            validateBtn.setImageResource(R.drawable.confirmbutton)
+            validateBtn.setBackgroundResource(R.drawable.rounded_button)
             speakOut(exercise.getOptions()[selectedId].getDescription())
         }
 
@@ -87,6 +90,8 @@ class QuestionFragment(tts:TextToSpeech) : Fragment() {
         thirdOption.setOnCheckedChangeListener{ _, isChecked ->
             if(isChecked)
                 selectedId = 2
+            validateBtn.setImageResource(R.drawable.confirmbutton)
+            validateBtn.setBackgroundResource(R.drawable.rounded_button)
             speakOut(exercise.getOptions()[selectedId].getDescription())
         }
 
@@ -110,6 +115,7 @@ class QuestionFragment(tts:TextToSpeech) : Fragment() {
         secondOption.text = optionList[1].getDescription()
         thirdOption.text = optionList[2].getDescription()
 
+
         val jumpBtn = (activity as MainActivity).findViewById<ImageView>(R.id.jump_button)
 
         jumpBtn.setImageResource(R.drawable.jumpbutton_clickable)
@@ -118,12 +124,6 @@ class QuestionFragment(tts:TextToSpeech) : Fragment() {
         return view
 
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        speakOut(exercise.getDescription())
-    }
-
     private fun turnOverlayOn(){
         answerOverlay.visibility = View.VISIBLE
         answerOverlay.isClickable = true
@@ -155,6 +155,8 @@ class QuestionFragment(tts:TextToSpeech) : Fragment() {
                 exerciseFragment?.displayNextFragment()
                 answerNavOverlay.visibility=View.GONE
                 answerNavOverlay.isClickable = false
+                (activity as MainActivity).findViewById<ImageButton>(R.id.like_button).setImageResource(R.drawable.likeheart)
+                (activity as MainActivity).findViewById<ImageButton>(R.id.like_button).isClickable = true
             }
         } else{
             textWrongOrRight.text = getString(R.string.wrong_text)

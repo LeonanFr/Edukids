@@ -8,8 +8,21 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import Edukids.R
+import android.content.ContentValues.TAG
+import android.content.Intent
 import android.speech.tts.TextToSpeech
+import android.widget.TextView
+import com.google.firebase.database.DatabaseError
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import model.Exercise
+import model.UserAnswer
 import okhttp3.ResponseBody
+import org.w3c.dom.Text
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,6 +34,7 @@ import java.util.Locale
 class MainActivity : AppCompatActivity(), View.OnClickListener, DataInterface,  TextToSpeech.OnInitListener{
 
     private lateinit var menuButton: ImageButton
+    private lateinit var activityMenuButton: ImageButton
     private lateinit var likeButton: ImageButton
     private lateinit var jumpButton: ImageButton
     private lateinit var nextButton: ImageButton
@@ -34,8 +48,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, DataInterface,  
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        fetchData()
+
+        tts = TextToSpeech(this, this)
+
         menuButton = findViewById(R.id.menu_button)
         menuButton.setOnClickListener(this)
+
+        activityMenuButton = findViewById(R.id.activity_menu_button)
+        activityMenuButton.setOnClickListener(this)
 
         likeButton = findViewById(R.id.like_button)
         likeButton.setOnClickListener(this)
@@ -52,11 +73,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, DataInterface,  
         navMainButtons = findViewById(R.id.nav_main_buttons)
         navActivityButtons = findViewById(R.id.nav_activity_buttons)
 
-        tts = TextToSpeech(this, this)
-
-        setFragment(LoadingFragment())
-
-        fetchData()
     }
 
 
@@ -80,9 +96,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, DataInterface,  
         return retrofitBuilder.getActivities()
     }
 
-    private fun fetchData(){
-        initExerciseFragment()
+    private fun fetchData() {
         initActivityFragment()
+        initExerciseFragment()
     }
 
     private fun initExerciseFragment(){
@@ -90,7 +106,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, DataInterface,  
         getExercises().enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful && response.body() != null) {
+
                     val exercises = response.body()!!
+
                     val exerciseFragment = ExerciseFragment.newInstance(tts!!, exercises)
                     setFragment(exerciseFragment)
                     navMainButtons.visibility = View.VISIBLE
@@ -106,12 +124,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, DataInterface,  
         })
     }
 
+
     private fun initActivityFragment() {
         getActivities().enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful && response.body() != null) {
                     val activities = response.body()!!
-                    activityFragment = ActivityFragment.newInstance(activities)
+                    activityFragment = ActivityFragment.newInstance(tts!!, activities)
                 } else {
                     Log.e("MainActivity", "Request failed: ${response.code()}")
                 }
@@ -145,6 +164,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, DataInterface,  
     }
 
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onClick(v: View) {
         when(v.id){
 
@@ -163,6 +183,33 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, DataInterface,  
 
             }
 
+            R.id.like_button ->{
+                val textView = findViewById<TextView>(R.id.liked_view)
+                textView.visibility = View.VISIBLE
+                likeButton.setImageResource(R.drawable.likeheart_unable)
+                likeButton.isClickable = false
+                GlobalScope.launch {
+                    delay(2000)
+                    runOnUiThread {
+                        findViewById<TextView>(R.id.liked_view).animate()
+                            .alpha(0f)
+                            .setDuration(500)
+                            .withEndAction {
+                                textView.visibility = View.GONE
+                                textView.alpha = 1f
+                            }
+                    }
+                }
+
+            }
+
+            R.id.menu_button ->{
+                startActivity(Intent(this, HomeActivity::class.java))
+            }
+
+            R.id.activity_menu_button ->{
+                startActivity(Intent(this, HomeActivity::class.java))
+            }
             R.id.validate_button ->{
                 val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
 
@@ -189,7 +236,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, DataInterface,  
     override fun onPause() {
         super.onPause()
             tts?.stop()
-            tts?.shutdown()
     }
 
 }

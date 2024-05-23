@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -52,7 +53,11 @@ android {
 dependencies {
 
     //noinspection UseTomlInstead
-    implementation("io.github.cdimascio:dotenv-kotlin:6.2.2")
+    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
+    implementation ("com.google.android.gms:play-services-auth:20.0.0")
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-analytics")
+    implementation ("pl.droidsonroids.gif:android-gif-drawable:1.2.28")
     implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
     implementation ("androidx.media3:media3-session:1.3.1")
     implementation ("com.github.bumptech.glide:glide:4.16.0")
@@ -74,6 +79,7 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.firebase.database.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

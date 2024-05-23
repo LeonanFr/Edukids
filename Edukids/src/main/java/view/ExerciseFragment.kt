@@ -9,9 +9,11 @@ import Edukids.R
 import android.speech.tts.TextToSpeech
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import model.Exercise
 import model.Media
 import okhttp3.ResponseBody
+import java.util.ArrayList
 
 class ExerciseFragment(tts: TextToSpeech) : Fragment() {
 
@@ -38,23 +40,27 @@ class ExerciseFragment(tts: TextToSpeech) : Fragment() {
         val jsonResponse = arguments?.getString("exerciseList")
         exerciseList  = Gson().fromJson(jsonResponse, object : TypeToken<List<Exercise>>() {}.type)
 
+
         displayNextFragment()
     }
 
     fun displayNextFragment() {
         val currentExercise = exerciseList.getOrNull(exerciseIndex)
 
+
         tts!!.stop()
         if (currentExercise != null) {
             val mediaList = currentExercise.getMedia()
-            if (mediaList.isNotEmpty() && mediaIndex<mediaList.size) {
+            if (mediaList.isNotEmpty() && mediaIndex < mediaList.size) {
                 displayMediaFragment(mediaList)
             } else {
                 displayQuestionFragment(currentExercise)
             }
-        } else{
+        } else {
             (activity as MainActivity).displayActivityFragment()
         }
+
+        view?.findViewById<YouTubePlayerView>(R.id.videoView)?.release()
     }
 
     private fun displayMediaFragment(mediaList : List<Media>){

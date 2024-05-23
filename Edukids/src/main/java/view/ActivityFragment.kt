@@ -26,10 +26,10 @@ import model.MediaType
 import okhttp3.ResponseBody
 import java.util.Locale
 
-class ActivityFragment : Fragment(), OnInitListener {
+class ActivityFragment(textToSpeech: TextToSpeech) : Fragment(){
     companion object{
-        fun newInstance(activityList: ResponseBody): ActivityFragment{
-            val fragment = ActivityFragment()
+        fun newInstance(textToSpeech: TextToSpeech, activityList: ResponseBody): ActivityFragment{
+            val fragment = ActivityFragment(textToSpeech)
             val args = Bundle().apply {
                 putString("activityList", activityList.string())
             }
@@ -54,7 +54,7 @@ class ActivityFragment : Fragment(), OnInitListener {
     private lateinit var continueBtn : Button
     private lateinit var password : EditText
     private var currentActivity : Activity? = null
-    private var tts : TextToSpeech? = null
+    private var tts : TextToSpeech? = textToSpeech
 
 
     private fun displayActivity(){
@@ -163,27 +163,18 @@ class ActivityFragment : Fragment(), OnInitListener {
 
         ttsButton = view.findViewById(R.id.tts_button_activity)
 
-        tts = TextToSpeech(activity, this)
+        ttsButton.setOnClickListener{
+            speakOut()
+        }
 
         displayActivity()
 
         return view
     }
 
-    override fun onInit(status: Int) {
-        if (status == TextToSpeech.SUCCESS) {
-            val result = tts?.setLanguage(Locale.forLanguageTag("pt-BR"))
-            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                Log.e("TTS", "A linguagem especificada não é suportado ou faltam dados")
-            } else {
-                ttsButton.setOnClickListener{
-                    speakOut()
-                }
-                speakOut()
-            }
-        } else {
-            Log.e("TTS", "A inicialização falhou")
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        speakOut()
     }
 
 

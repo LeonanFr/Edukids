@@ -26,5 +26,22 @@
     <string name="sucess_image">Imagem de sucesso</string>
     <string name="finished_activity">Atividade finalizada!</string>
     <string name="back">Voltar</string>
+    <string name="atividades">Atividades</string>
+    <string name="activity_icon">Ícone de atividades</string>
+    <string name="paint_icon">Ícone de pintura</string>
+    <string name="menu">Menu</string>
+    <string name="progress">Progresso</string>
+    <string name="help">Ajuda</string>
+    <string name="configs">Configurações</string>
+    <string name="premium_icon">Ícone premium</string>
+    <string name="premium_text">Acesse a versão premium</string>
+    <string name="loading">Carregando...</string>
+    <string name="loading_gif">Gif de carregamento</string>
+    <string name="default_web_client_id">1007300823407-fg0am05b6ddeav9pjkrt4qgqgfsfsuk2.apps.googleusercontent.com</string>
+    <string name="sign_in_with_google">Continuar com o Google</string>
+    <string name="register_google">Continuar com o Google</string>
+    <string name="google_icon">Ícone do google</string>
+    <string name="do_login">Faça seu login</string>
+    <string name="liked">Você curtiu esse conteúdo!</string>
 
 </resources>

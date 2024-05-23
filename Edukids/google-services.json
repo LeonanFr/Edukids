@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1007300823407",
+    "firebase_url": "https://edukids-b162d-default-rtdb.firebaseio.com",
+    "project_id": "edukids-b162d",
+    "storage_bucket": "edukids-b162d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1007300823407:android:43ba9acc215e79d53e009a",
+        "android_client_info": {
+          "package_name": "com.Edukids.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1007300823407-td6b9fectegdir0gb51ol4frbblpfut9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.Edukids.app",
+            "certificate_hash": "cf9e9d8c5a46b4d85cab22615836543f850b74e9"
+          }
+        },
+        {
+          "client_id": "1007300823407-fg0am05b6ddeav9pjkrt4qgqgfsfsuk2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCARdfk_9nfj4YG5PPT522W00A5scPvdXA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1007300823407-fg0am05b6ddeav9pjkrt4qgqgfsfsuk2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

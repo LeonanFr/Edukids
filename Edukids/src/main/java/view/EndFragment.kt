@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import Edukids.R
+import android.content.Intent
+import android.widget.ImageButton
 
 class EndFragment : Fragment() {
 
@@ -19,8 +21,6 @@ class EndFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-
         val jumpBtn = (activity as MainActivity).findViewById<ImageView>(R.id.jump_button)
         val likeBtn = (activity as MainActivity).findViewById<ImageView>(R.id.like_button)
         val validateBtn = (activity as MainActivity).findViewById<ImageView>(R.id.validate_button)
@@ -30,6 +30,7 @@ class EndFragment : Fragment() {
         likeBtn.visibility=View.GONE
         validateBtn.visibility=View.GONE
         navOverlay.visibility =View.GONE
+
 
         return inflater.inflate(R.layout.fragment_end, container, false)
     }

@@ -7,10 +7,10 @@
       </SelectionState>
       <SelectionState runConfigName="edukids">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-05-23T04:34:57.448687600Z">
+        <DropdownSelection timestamp="2024-05-23T22:12:23.558765500Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\pedro\.android\avd\XXX.avd" />
+              <DeviceId pluginId="PhysicalDevice" identifier="serial=a0c9ab96" />
             </handle>
           </Target>
         </DropdownSelection>

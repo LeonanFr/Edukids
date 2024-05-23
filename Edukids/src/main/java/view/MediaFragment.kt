@@ -35,13 +35,13 @@ class MediaFragment(tts: TextToSpeech) : Fragment(){
         }
     }
 
-    private lateinit var ytPlayer: YouTubePlayer
+    private var ytPlayer: YouTubePlayer? = null
     private lateinit var mediaType : MediaType
     private lateinit var mediaUrl : String
     private lateinit var mediaTitle : String
     private lateinit var textView: TextView
     private lateinit var imageView: ImageView
-    private lateinit var videoView: YouTubePlayerView
+    private var videoView: YouTubePlayerView? = null
     private var tts : TextToSpeech? = tts
 
     private val mediaResolver: Map<MediaType, () -> Unit> = mapOf(
@@ -100,13 +100,13 @@ class MediaFragment(tts: TextToSpeech) : Fragment(){
 
     private fun showVideo(){
 
-        videoView.visibility = View.VISIBLE
+        videoView!!.visibility = View.VISIBLE
 
-        videoView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+        videoView!!.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 ytPlayer = youTubePlayer
-                ytPlayer.loadVideo(mediaUrl, 0f)
-                ytPlayer.play()
+                ytPlayer!!.loadVideo(mediaUrl, 0f)
+                ytPlayer!!.play()
             }
         })
     }
@@ -114,14 +114,6 @@ class MediaFragment(tts: TextToSpeech) : Fragment(){
     private fun speakOut(){
         if(mediaType==MediaType.TEXT){
             tts?.speak(mediaTitle, TextToSpeech.QUEUE_FLUSH, null,"")
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        if(mediaType==MediaType.VIDEO){
-            ytPlayer.pause()
-            videoView.release()
         }
     }
 
