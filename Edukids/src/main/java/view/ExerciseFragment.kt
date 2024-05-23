@@ -5,21 +5,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.app.R
+import Edukids.R
+import android.speech.tts.TextToSpeech
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import model.Exercise
 import model.Media
 import okhttp3.ResponseBody
 
-class ExerciseFragment : Fragment() {
+class ExerciseFragment(tts: TextToSpeech) : Fragment() {
 
     private lateinit var exerciseList: List<Exercise>
     private var exerciseIndex = 0
     private var mediaIndex = 0
+    private var tts : TextToSpeech? = tts
     companion object{
-        fun newInstance(exerciseList: ResponseBody): ExerciseFragment{
-            val fragment = ExerciseFragment()
+        fun newInstance(tts : TextToSpeech, exerciseList: ResponseBody): ExerciseFragment{
+            val fragment = ExerciseFragment(tts)
             val args = Bundle().apply {
                 putString("exerciseList", exerciseList.string())
             }
@@ -42,6 +44,7 @@ class ExerciseFragment : Fragment() {
     fun displayNextFragment() {
         val currentExercise = exerciseList.getOrNull(exerciseIndex)
 
+        tts!!.stop()
         if (currentExercise != null) {
             val mediaList = currentExercise.getMedia()
             if (mediaList.isNotEmpty() && mediaIndex<mediaList.size) {
@@ -50,12 +53,12 @@ class ExerciseFragment : Fragment() {
                 displayQuestionFragment(currentExercise)
             }
         } else{
-            (activity as MainActivity).initActivityFragment()
+            (activity as MainActivity).displayActivityFragment()
         }
     }
 
     private fun displayMediaFragment(mediaList : List<Media>){
-        val mediaFragment = MediaFragment.newInstance(mediaList[mediaIndex].getUrl(), mediaList[mediaIndex].getType().toString(), mediaList[mediaIndex].getTitle())
+        val mediaFragment = MediaFragment.newInstance(tts!!, mediaList[mediaIndex].getUrl(), mediaList[mediaIndex].getType().toString(), mediaList[mediaIndex].getTitle())
         childFragmentManager.beginTransaction()
             .replace(R.id.fragment_container_child, mediaFragment, "fragment_media")
             .addToBackStack("fragment_media")
@@ -66,7 +69,7 @@ class ExerciseFragment : Fragment() {
 
     private fun displayQuestionFragment(currentExercise : Exercise){
         val optionsList = currentExercise.getOptions()
-        val questionFragment = QuestionFragment.newInstance(currentExercise.getDescription(), Gson().toJson(optionsList), currentExercise.getCurrentOptionId(), Gson().toJson(currentExercise))
+        val questionFragment = QuestionFragment.newInstance(tts!!, currentExercise.getDescription(), Gson().toJson(optionsList), currentExercise.getCurrentOptionId(), Gson().toJson(currentExercise))
 
         childFragmentManager.beginTransaction()
             .replace(R.id.fragment_container_child, questionFragment)

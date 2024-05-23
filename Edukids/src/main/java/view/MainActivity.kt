@@ -7,17 +7,18 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.app.R
+import Edukids.R
+import android.speech.tts.TextToSpeech
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.Locale
 
 
-const val BASE_URL = "https://sa-east-1.aws.data.mongodb-api.com/app/data-ytyyaqu/endpoint/"
-class MainActivity : AppCompatActivity(), View.OnClickListener, DataInterface{
+class MainActivity : AppCompatActivity(), View.OnClickListener, DataInterface,  TextToSpeech.OnInitListener{
 
     private lateinit var menuButton: ImageButton
     private lateinit var likeButton: ImageButton
@@ -26,7 +27,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, DataInterface{
     private lateinit var navMainButtons : LinearLayout
     private lateinit var navActivityButtons : LinearLayout
     private lateinit var validateButton : ImageButton
-
+    private lateinit var activityFragment: ActivityFragment
+    private var tts : TextToSpeech? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,16 +52,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, DataInterface{
         navMainButtons = findViewById(R.id.nav_main_buttons)
         navActivityButtons = findViewById(R.id.nav_activity_buttons)
 
+        tts = TextToSpeech(this, this)
+
         setFragment(LoadingFragment())
 
-        initExerciseFragment()
+        fetchData()
     }
 
 
     override fun getExercises() : Call<ResponseBody>{
         val retrofitBuilder = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(BASE_URL)
+            .baseUrl(apiKey)
             .build()
             .create(DataInterface::class.java)
 
@@ -69,11 +73,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, DataInterface{
     override fun getActivities() : Call<ResponseBody>{
         val retrofitBuilder = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(BASE_URL)
+            .baseUrl(apiKey)
             .build()
             .create(DataInterface::class.java)
 
         return retrofitBuilder.getActivities()
+    }
+
+    private fun fetchData(){
+        initExerciseFragment()
+        initActivityFragment()
     }
 
     private fun initExerciseFragment(){
@@ -82,7 +91,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, DataInterface{
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful && response.body() != null) {
                     val exercises = response.body()!!
-                    val exerciseFragment = ExerciseFragment.newInstance(exercises)
+                    val exerciseFragment = ExerciseFragment.newInstance(tts!!, exercises)
                     setFragment(exerciseFragment)
                     navMainButtons.visibility = View.VISIBLE
                     navActivityButtons.visibility = View.GONE
@@ -97,15 +106,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, DataInterface{
         })
     }
 
-    fun initActivityFragment() {
+    private fun initActivityFragment() {
         getActivities().enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful && response.body() != null) {
                     val activities = response.body()!!
-                    val activityFragment = ActivityFragment.newInstance(activities)
-                    setFragment(activityFragment)
+                    activityFragment = ActivityFragment.newInstance(activities)
                 } else {
-                    setFragment(EndFragment())
                     Log.e("MainActivity", "Request failed: ${response.code()}")
                 }
             }
@@ -114,6 +121,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, DataInterface{
                 Log.d("MainActivity", "onFailure: ${t.message}")
             }
         })
+    }
+
+    fun displayActivityFragment(){
+        setFragment(activityFragment)
     }
 
     fun setFragment(fragment: Fragment){
@@ -163,4 +174,22 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, DataInterface{
         }
 
         }
+
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS) {
+            val result = tts?.setLanguage(Locale.forLanguageTag("pt-BR"))
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "A linguagem especificada não é suportado ou faltam dados")
+            }
+        } else {
+            Log.e("TTS", "A inicialização falhou")
+        }
     }
+
+    override fun onPause() {
+        super.onPause()
+            tts?.stop()
+            tts?.shutdown()
+    }
+
+}

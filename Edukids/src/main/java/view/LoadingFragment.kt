@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.app.R
+import Edukids.R
 
 class LoadingFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {

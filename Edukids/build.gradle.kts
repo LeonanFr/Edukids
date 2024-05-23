@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.app"
+    namespace = "Edukids"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.app"
+        applicationId = "com.Edukids.app"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
@@ -52,6 +52,7 @@ android {
 dependencies {
 
     //noinspection UseTomlInstead
+    implementation("io.github.cdimascio:dotenv-kotlin:6.2.2")
     implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
     implementation ("androidx.media3:media3-session:1.3.1")
     implementation ("com.github.bumptech.glide:glide:4.16.0")

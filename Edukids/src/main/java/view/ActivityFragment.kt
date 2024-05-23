@@ -15,7 +15,9 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.example.app.R
+import Edukids.R
+import android.content.Context
+import android.view.inputmethod.InputMethodManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import model.Activity
@@ -83,6 +85,9 @@ class ActivityFragment : Fragment(), OnInitListener {
         validateBtn.setOnClickListener{
             overlayHolder.visibility = View.GONE
             answerOverlayHolder.visibility = View.VISIBLE
+
+            val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(password.windowToken, 0)
 
             if(currentActivity!!.complete(password.text.toString())){
                 validateText.setText(R.string.finished_activity)
@@ -180,10 +185,6 @@ class ActivityFragment : Fragment(), OnInitListener {
             Log.e("TTS", "A inicialização falhou")
         }
     }
-    override fun onPause() {
-        super.onPause()
-        tts?.stop()
-        tts?.shutdown()
-    }
+
 
 }

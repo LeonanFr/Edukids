@@ -11,18 +11,18 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.TextView
-import com.example.app.R
+import Edukids.R
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import model.Exercise
 import model.Option
 import java.util.Locale
 
-class QuestionFragment : Fragment(), TextToSpeech.OnInitListener {
+class QuestionFragment(tts:TextToSpeech) : Fragment() {
 
     companion object{
-        fun newInstance(description: String, optionsJson: String, correctOptionId: Int, exercise: String) : QuestionFragment{
-            val fragment = QuestionFragment()
+        fun newInstance(tts: TextToSpeech, description: String, optionsJson: String, correctOptionId: Int, exercise: String) : QuestionFragment{
+            val fragment = QuestionFragment(tts)
             val args = Bundle().apply {
                 putString("description", description)
                 putString("optionsJson", optionsJson)
@@ -46,7 +46,7 @@ class QuestionFragment : Fragment(), TextToSpeech.OnInitListener {
     private lateinit var answerOverlay : View
     private lateinit var answerNavOverlay : View
     private lateinit var optionList : List<Option>
-    private var tts : TextToSpeech? = null
+    private var tts : TextToSpeech? = tts
     private var selectedId = -1
 
     override fun onCreateView(
@@ -74,22 +74,29 @@ class QuestionFragment : Fragment(), TextToSpeech.OnInitListener {
         firstOption.setOnCheckedChangeListener{ _, isChecked ->
             if(isChecked)
                 selectedId = 0
+            speakOut(exercise.getOptions()[selectedId].getDescription())
         }
 
         secondOption.setOnCheckedChangeListener{ _, isChecked ->
             if(isChecked)
                 selectedId = 1
+            speakOut(exercise.getOptions()[selectedId].getDescription())
         }
 
 
         thirdOption.setOnCheckedChangeListener{ _, isChecked ->
             if(isChecked)
                 selectedId = 2
+            speakOut(exercise.getOptions()[selectedId].getDescription())
         }
 
         validateBtn.setOnClickListener{
             if(selectedId!=-1)
                 validateQuestion(view)
+        }
+
+        ttsBtn.setOnClickListener{
+            speakOut(exercise.getDescription())
         }
 
         answerOverlay.setOnClickListener{
@@ -114,9 +121,7 @@ class QuestionFragment : Fragment(), TextToSpeech.OnInitListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        tts = TextToSpeech(activity, this)
-
+        speakOut(exercise.getDescription())
     }
 
     private fun turnOverlayOn(){
@@ -173,39 +178,6 @@ class QuestionFragment : Fragment(), TextToSpeech.OnInitListener {
 
         tts?.speak(textToRead, TextToSpeech.QUEUE_FLUSH, null,"")
 
-    }
-    override fun onInit(status: Int) {
-        if (status == TextToSpeech.SUCCESS) {
-            val result = tts?.setLanguage(Locale.forLanguageTag("pt-BR"))
-            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                Log.e("TTS", "A linguagem especificada não é suportado ou faltam dados")
-                ttsBtn.isEnabled = false
-            } else {
-                speakOut(questionDescription.text.toString())
-                ttsBtn.setOnClickListener {
-                    speakOut(questionDescription.text.toString())
-                }
-                firstOption.setOnClickListener {
-                    speakOut(optionList[0].getDescription())
-                }
-                secondOption.setOnClickListener {
-                    speakOut(optionList[1].getDescription())
-                }
-                thirdOption.setOnClickListener {
-                    speakOut(optionList[2].getDescription())
-                }
-                ttsBtn.isEnabled = true
-            }
-        } else {
-            Log.e("TTS", "A inicialização falhou")
-            ttsBtn.isEnabled = false
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        tts?.stop()
-        tts?.shutdown()
     }
 
 }
