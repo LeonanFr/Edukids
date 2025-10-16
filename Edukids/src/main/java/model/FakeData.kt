@@ -3,7 +3,7 @@ package model
 object FakeData {
 
     fun getFakeExercises(): List<Exercise> {
-        val media1 = Media(1, "O que é isso?", AgeRange.INFANT, MediaType.IMAGE, "https://img.freepik.com/fotos-gratis/um-gatinho-fofo-de-itado-na-cama_1340-38827.jpg")
+        val media1 = Media(1, "O que é isso?", AgeRange.INFANT, MediaType.IMAGE, "https://img.freepik.com/fotos-gratis/kitty-com-parede-monocromatica-atras-dela_23-2148955134.jpg")
 
         val options1 = mutableListOf(
             Option(1, "Um gato"),
@@ -19,12 +19,12 @@ object FakeData {
             Option(3, "Vermelho")
         )
 
-        val media3 = Media(3, "Mundo Bita - Viajar pelo Safari", AgeRange.INFANT, MediaType.VIDEO, "f53hQtDA3_s")
+        val media3 = Media(3, "Galinha pintadinha", AgeRange.INFANT, MediaType.VIDEO, "1i7p0vTGcBk")
 
         val options3 = mutableListOf(
-            Option(1, "Fazendinha"),
-            Option(2, "Fundo do Mar"),
-            Option(3, "Safari")
+            Option(1, "Pavão"),
+            Option(2, "Peru"),
+            Option(3, "Urubu")
         )
 
 
@@ -49,8 +49,8 @@ object FakeData {
             ),
             Exercise(
                 _id = 3,
-                description = "Onde os animais do vídeo estão passeando?",
-                correctOptionId = 2,
+                description = "O doutor é qual animal?",
+                correctOptionId = 1,
                 isReady = true,
                 points = 10,
                 medias = mutableListOf(media3),
@@ -60,12 +60,12 @@ object FakeData {
     }
 
     fun getFakeActivities(): List<Activity> {
-        val mediaActivity = Media(10, "Encontre a senha", AgeRange.INFANT, MediaType.IMAGE, "https://i.imgur.com/83n2g6b.png")
+        val mediaActivity = Media(10, "Pular corda", AgeRange.INFANT, MediaType.IMAGE, "https://img.freepik.com/fotos-gratis/uma-garota-sorridente-pulando-corda-vermelha_23-2149073589.jpg")
 
         return listOf(
             Activity(
                 _id = 100,
-                description = "A senha é 1234. Digite para completar a atividade!",
+                description = "Pule a corda 15 vezes!",
                 isCompleted = false,
                 isReady = true,
                 media = mediaActivity
